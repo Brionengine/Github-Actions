@@ -5,3 +5,4 @@ dask
 psutil
 matplotlib
 scikit-learn
+pytest
