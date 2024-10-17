@@ -1,0 +1,45 @@
+name: Google Cloud Quantum CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install cirq google-cloud-functions
+
+    - name: Run Unit Tests
+      run: |
+        pytest tests/quantum_tests.py
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+    - name: Deploy Cloud Function
+      run: |
+        gcloud functions deploy quantum_function \
+          --runtime python310 \
+          --trigger-http \
+          --allow-unauthenticated
