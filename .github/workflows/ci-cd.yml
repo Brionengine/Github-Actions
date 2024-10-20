@@ -49,5 +49,6 @@ jobs:
       run: |
         aws lambda update-function-code \
           --function-name cloud-quantum-integration \
-          --zip-file fileb://function.zip
+          --zip-file fileb://$(pwd)/function.zip
+
 
