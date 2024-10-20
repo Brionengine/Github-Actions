@@ -1,4 +1,3 @@
-
 name: AWS Lambda CI/CD Pipeline
 
 on:
@@ -24,6 +23,11 @@ jobs:
         pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: List Files (Debugging Step)
+      run: |
+        echo "Listing current directory:"
+        ls -R
+
     - name: Run Unit Tests
       run: |
         pytest tests/quantum_tests.py
@@ -42,4 +46,6 @@ jobs:
 
     - name: Deploy Lambda Function
       run: |
-        aws lambda update-function-code           --function-name cloud-quantum-integration           --zip-file fileb://function.zip
+        aws lambda update-function-code \
+          --function-name cloud-quantum-integration \
+          --zip-file fileb://function.zip
