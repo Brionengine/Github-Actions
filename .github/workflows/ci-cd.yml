@@ -13,6 +13,11 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
+    - name: List Files (After Checkout Debugging)
+      run: |
+        echo "Current directory content:"
+        ls -la
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -22,11 +27,6 @@ jobs:
       run: |
         pip install --upgrade pip
         pip install -r requirements.txt
-
-    - name: List Files (Debugging Step)
-      run: |
-        echo "Listing current directory:"
-        ls -la
 
     - name: Run Unit Tests
       run: |
@@ -48,5 +48,4 @@ jobs:
       run: |
         aws lambda update-function-code \
           --function-name cloud-quantum-integration \
-          --zip-file fileb://./function.zip
-
+          --zip-file fileb://function.zip
