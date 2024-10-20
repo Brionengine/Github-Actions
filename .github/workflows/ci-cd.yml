@@ -23,12 +23,14 @@ jobs:
         pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Create ZIP for Lambda Function
-      run: |
-        zip function.zip cloud_real_time_deployment.py
-
     - name: List Files (Debugging Step)
-      run: ls -l
+      run: |
+        echo "Listing current directory:"
+        ls -R
+
+    - name: Run Unit Tests
+      run: |
+        pytest tests/quantum_tests.py
 
   deploy:
     needs: build
