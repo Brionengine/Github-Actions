@@ -26,7 +26,7 @@ jobs:
     - name: List Files (Debugging Step)
       run: |
         echo "Listing current directory:"
-        ls -R
+        ls -la
 
     - name: Run Unit Tests
       run: |
@@ -48,4 +48,5 @@ jobs:
       run: |
         aws lambda update-function-code \
           --function-name cloud-quantum-integration \
-          --zip-file fileb://function.zip
+          --zip-file fileb://./function.zip
+
