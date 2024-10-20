@@ -1,6 +1,6 @@
 name: AWS Lambda CI/CD Pipeline
 
-on:
+on: 
   push:
     branches:
       - main
@@ -13,12 +13,6 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: Debug File Structure
-      run: |
-        echo "Listing files in the current directory:"
-        pwd
-        ls -R
-
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -28,6 +22,11 @@ jobs:
       run: |
         pip install --upgrade pip
         pip install -r requirements.txt
+
+    - name: List Files (Debugging Step)
+      run: |
+        echo "Listing current directory:"
+        ls -R
 
     - name: Run Unit Tests
       run: |
@@ -45,10 +44,17 @@ jobs:
         aws-secret-access-key: Sz2eSNXuK7NVmZMGb5ByQIRI4sS4wOQ7IxH7NNnn
         aws-region: us-east-1
 
+    - name: List Files (Confirm Function.zip)
+      run: |
+        echo "Listing files to ensure function.zip is present"
+        ls -R
+
     - name: Deploy Lambda Function
       run: |
         aws lambda update-function-code \
           --function-name cloud-quantum-integration \
-          --zip-file fileb://$(pwd)/function.zip
+          --zip-file fileb://function.zip
+      working-directory: .
+
 
 
