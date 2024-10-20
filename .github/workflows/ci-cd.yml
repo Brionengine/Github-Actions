@@ -13,10 +13,11 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v3
 
-    - name: List Files (After Checkout Debugging)
+    - name: Debug File Structure
       run: |
-        echo "Current directory content:"
-        ls -la
+        echo "Listing files in the current directory:"
+        pwd
+        ls -R
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -49,3 +50,4 @@ jobs:
         aws lambda update-function-code \
           --function-name cloud-quantum-integration \
           --zip-file fileb://function.zip
+
