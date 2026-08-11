@@ -1,4 +1,5 @@
-from qiskit import QuantumCircuit, Aer, execute
+from qiskit import QuantumCircuit, transpile
+from qiskit_aer import Aer
 import time
 
 class QuantumRyanActionModel:
@@ -15,7 +16,7 @@ class QuantumRyanActionModel:
     def choose_action(self):
         # Measure the qubits
         self.qc.measure(range(self.num_qubits), range(self.num_qubits))
-        job = execute(self.qc, self.backend, shots=1)
+        job = self.backend.run(transpile(self.qc, self.backend), shots=1)
         result = job.result()
         counts = result.get_counts()
         action = int(list(counts.keys())[0], 2)
